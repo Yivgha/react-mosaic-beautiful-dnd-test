@@ -1,4 +1,4 @@
-import { ViewId, Task } from '../types';
+import { ViewId, Task } from './types';
 
 export const initialTasks: { [key in ViewId]: Task[] } = {
   a: [

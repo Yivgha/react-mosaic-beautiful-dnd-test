@@ -3,38 +3,16 @@ import { Mosaic } from 'react-mosaic-component';
 import {
   DragDropContext,
   Droppable,
-  Draggable,
   DroppableProvided,
-  DraggableProvided,
 } from '@hello-pangea/dnd';
 
 import 'react-mosaic-component/react-mosaic-component.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
-import { ViewId, Task } from './types';
-import { initialTasks } from './components/initialTasks';
+import { ViewId } from './types';
+import { initialTasks } from './initialTasks';
+import TaskComponent from './components/TaskComponent';
 
 import './App.css';
-
-const TaskComponent: React.FC<{ task: Task; index: number }> = ({
-  task,
-  index,
-}) => (
-  <Draggable draggableId={task.id} index={index}>
-    {(provided: DraggableProvided) => (
-      <div
-        ref={provided.innerRef}
-        {...provided.draggableProps}
-        {...provided.dragHandleProps}
-        style={{
-          ...provided.draggableProps.style,
-        }}
-        className='task'
-      >
-        <p>{task.title}</p>
-      </div>
-    )}
-  </Draggable>
-);
 
 const App: React.FC = () => {
   const [tasks, setTasks] = React.useState(initialTasks);
