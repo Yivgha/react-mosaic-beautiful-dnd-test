@@ -1,4 +1,5 @@
-import { Draggable } from 'react-beautiful-dnd';
+// TaskComponent.tsx
+import { Draggable } from '@hello-pangea/dnd'; // Change this import
 import { DraggableProvided } from '@hello-pangea/dnd';
 import { Task } from '../types';
 
@@ -24,3 +25,4 @@ const TaskComponent: React.FC<{ task: Task; index: number }> = ({
 );
 
 export default TaskComponent;
+

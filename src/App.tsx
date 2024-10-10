@@ -5,17 +5,20 @@ import {
   Droppable,
   DroppableProvided,
 } from '@hello-pangea/dnd';
-
 import 'react-mosaic-component/react-mosaic-component.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
-import { ViewId } from './types';
+import { ViewId, Task, Tasks } from './types';
 import { initialTasks } from './initialTasks';
 import TaskComponent from './components/TaskComponent';
 
 import './App.css';
 
 const App: React.FC = () => {
-  const [tasks, setTasks] = React.useState(initialTasks);
+  // Load tasks from localStorage or use initialTasks
+  const [tasks, setTasks] = React.useState(() => {
+    const savedTasks = localStorage.getItem('tasks');
+    return savedTasks ? JSON.parse(savedTasks) : initialTasks;
+  });
 
   // Handle drag end event
   const onDragEnd = (result: any) => {
@@ -23,42 +26,40 @@ const App: React.FC = () => {
 
     if (!destination) return;
 
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
-
     const startColumn = source.droppableId as ViewId;
     const endColumn = destination.droppableId as ViewId;
 
-    // Copy tasks for source and destination columns
     const startTasks = Array.from(tasks[startColumn]);
     const endTasks = Array.from(tasks[endColumn]);
 
-    // Moving between columns
-    if (startColumn !== endColumn) {
+    if (startColumn === endColumn) {
+      const [movedTask] = startTasks.splice(source.index, 1);
+      startTasks.splice(destination.index, 0, movedTask);
+
+      setTasks((prevTasks: Tasks) => ({
+        ...prevTasks,
+        [startColumn]: startTasks,
+      }));
+    } else {
       const [movedTask] = startTasks.splice(source.index, 1);
       endTasks.splice(destination.index, 0, movedTask);
 
-      // Update the tasks in state
-      setTasks((prevTasks) => ({
+      setTasks((prevTasks: Tasks) => ({
         ...prevTasks,
         [startColumn]: startTasks,
         [endColumn]: endTasks,
       }));
-    } else {
-      // Reorder within the same column
-      const [movedTask] = startTasks.splice(source.index, 1);
-      startTasks.splice(destination.index, 0, movedTask);
-
-      // Update the state with reordered tasks
-      setTasks((prevTasks) => ({
-        ...prevTasks,
-        [startColumn]: startTasks,
-      }));
     }
+
+    // Save to localStorage
+    localStorage.setItem(
+      'tasks',
+      JSON.stringify({
+        ...tasks,
+        [startColumn]: startTasks,
+        [endColumn]: endTasks,
+      })
+    );
   };
 
   // Create ELEMENT_MAP dynamically from tasks state
@@ -72,7 +73,7 @@ const App: React.FC = () => {
             className='mosaic-window'
           >
             <h2>Column 1</h2>
-            {tasks.a.map((task, index) => (
+            {tasks.a.map((task: Task, index: number) => (
               <TaskComponent key={task.id} task={task} index={index} />
             ))}
             {provided.placeholder}
@@ -89,7 +90,7 @@ const App: React.FC = () => {
             className='mosaic-window'
           >
             <h2>Column 2</h2>
-            {tasks.b.map((task, index) => (
+            {tasks.b.map((task: Task, index: number) => (
               <TaskComponent key={task.id} task={task} index={index} />
             ))}
             {provided.placeholder}
@@ -106,7 +107,7 @@ const App: React.FC = () => {
             className='mosaic-window'
           >
             <h2>Column 3</h2>
-            {tasks.c.map((task, index) => (
+            {tasks.c.map((task: Task, index: number) => (
               <TaskComponent key={task.id} task={task} index={index} />
             ))}
             {provided.placeholder}

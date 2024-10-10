@@ -5,3 +5,7 @@ export type Task = {
   title: string;
 };
 
+export interface Tasks {
+  [key: string]: Task[];
+}
+
