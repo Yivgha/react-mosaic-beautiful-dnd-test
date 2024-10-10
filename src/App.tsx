@@ -10,14 +10,18 @@ import '@blueprintjs/core/lib/css/blueprint.css';
 import { ViewId, Task, Tasks } from './types';
 import { initialTasks } from './initialTasks';
 import TaskComponent from './components/TaskComponent';
-
 import './App.css';
 
 const App: React.FC = () => {
   // Load tasks from localStorage or use initialTasks
-  const [tasks, setTasks] = React.useState(() => {
+  const [tasks, setTasks] = React.useState<Tasks>(() => {
     const savedTasks = localStorage.getItem('tasks');
-    return savedTasks ? JSON.parse(savedTasks) : initialTasks;
+    const loadedTasks = savedTasks ? JSON.parse(savedTasks) : initialTasks;
+    return {
+      a: loadedTasks.a || [],
+      b: loadedTasks.b || [],
+      c: loadedTasks.c || [],
+    };
   });
 
   // Handle drag end event
@@ -62,60 +66,40 @@ const App: React.FC = () => {
     );
   };
 
-  // Create ELEMENT_MAP dynamically from tasks state
-  const ELEMENT_MAP: { [viewId in ViewId]: JSX.Element } = {
-    a: (
-      <Droppable droppableId='a'>
-        {(provided: DroppableProvided) => (
-          <div
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            className='mosaic-window'
-          >
-            <h2>Column 1</h2>
-            {tasks.a.map((task: Task, index: number) => (
-              <TaskComponent key={task.id} task={task} index={index} />
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    ),
-    b: (
-      <Droppable droppableId='b'>
-        {(provided: DroppableProvided) => (
-          <div
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            className='mosaic-window'
-          >
-            <h2>Column 2</h2>
-            {tasks.b.map((task: Task, index: number) => (
-              <TaskComponent key={task.id} task={task} index={index} />
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    ),
-    c: (
-      <Droppable droppableId='c'>
-        {(provided: DroppableProvided) => (
-          <div
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            className='mosaic-window'
-          >
-            <h2>Column 3</h2>
-            {tasks.c.map((task: Task, index: number) => (
-              <TaskComponent key={task.id} task={task} index={index} />
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    ),
+  // Dynamically generate columns based on the tasks object
+  const createColumns = () => {
+    const columns: ViewId[] = ['a', 'b', 'c'];
+
+    return columns.reduce(
+      (elementsMap: { [viewId in ViewId]: JSX.Element }, columnId) => {
+        elementsMap[columnId] = (
+          <Droppable droppableId={columnId} key={columnId}>
+            {(provided: DroppableProvided) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className='mosaic-window'
+              >
+                <h2>Column {columnId.toUpperCase()}</h2>
+                {tasks[columnId].length > 0 ? (
+                  tasks[columnId].map((task: Task, index: number) => (
+                    <TaskComponent key={task.id} task={task} index={index} />
+                  ))
+                ) : (
+                  <p>No tasks available</p>
+                )}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        );
+        return elementsMap;
+      },
+      {} as { [viewId in ViewId]: JSX.Element }
+    );
   };
+
+  const ELEMENT_MAP = createColumns();
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
