@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/react-mosaic-beautiful-dnd-test/static/css/main.83980f4e.css",
-    "main.js": "/react-mosaic-beautiful-dnd-test/static/js/main.be0cba5e.js",
+    "main.css": "/react-mosaic-beautiful-dnd-test/static/css/main.b9121667.css",
+    "main.js": "/react-mosaic-beautiful-dnd-test/static/js/main.2287b513.js",
     "blueprint-icons-all-paths-loader.js": "/react-mosaic-beautiful-dnd-test/static/js/blueprint-icons-all-paths-loader.c8ce22cd.chunk.js",
     "blueprint-icons-split-paths-by-size-loader.js": "/react-mosaic-beautiful-dnd-test/static/js/blueprint-icons-split-paths-by-size-loader.d59f532a.chunk.js",
     "static/js/453.6588357c.chunk.js": "/react-mosaic-beautiful-dnd-test/static/js/453.6588357c.chunk.js",
@@ -9,8 +9,8 @@
     "blueprint-icons-16px-paths.js": "/react-mosaic-beautiful-dnd-test/static/js/blueprint-icons-16px-paths.43a26189.chunk.js",
     "blueprint-icons-20px-paths.js": "/react-mosaic-beautiful-dnd-test/static/js/blueprint-icons-20px-paths.d60131b5.chunk.js",
     "index.html": "/react-mosaic-beautiful-dnd-test/index.html",
-    "main.83980f4e.css.map": "/react-mosaic-beautiful-dnd-test/static/css/main.83980f4e.css.map",
-    "main.be0cba5e.js.map": "/react-mosaic-beautiful-dnd-test/static/js/main.be0cba5e.js.map",
+    "main.b9121667.css.map": "/react-mosaic-beautiful-dnd-test/static/css/main.b9121667.css.map",
+    "main.2287b513.js.map": "/react-mosaic-beautiful-dnd-test/static/js/main.2287b513.js.map",
     "blueprint-icons-all-paths-loader.c8ce22cd.chunk.js.map": "/react-mosaic-beautiful-dnd-test/static/js/blueprint-icons-all-paths-loader.c8ce22cd.chunk.js.map",
     "blueprint-icons-split-paths-by-size-loader.d59f532a.chunk.js.map": "/react-mosaic-beautiful-dnd-test/static/js/blueprint-icons-split-paths-by-size-loader.d59f532a.chunk.js.map",
     "453.6588357c.chunk.js.map": "/react-mosaic-beautiful-dnd-test/static/js/453.6588357c.chunk.js.map",
@@ -19,7 +19,7 @@
     "blueprint-icons-20px-paths.d60131b5.chunk.js.map": "/react-mosaic-beautiful-dnd-test/static/js/blueprint-icons-20px-paths.d60131b5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.83980f4e.css",
-    "static/js/main.be0cba5e.js"
+    "static/css/main.b9121667.css",
+    "static/js/main.2287b513.js"
   ]
 }
