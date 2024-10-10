@@ -33,7 +33,6 @@ const App: React.FC = () => {
     }
   );
 
-  // Handle drag end event
   const onDragEnd = (result: any) => {
     const { destination, source } = result;
 
@@ -50,7 +49,6 @@ const App: React.FC = () => {
       const [movedTask] = startTasks.splice(source.index, 1);
       startTasks.splice(destination.index, 0, movedTask);
 
-      // Update the state
       const updatedTasks = {
         ...tasks,
         [startColumn]: startTasks,
@@ -63,7 +61,6 @@ const App: React.FC = () => {
       const [movedTask] = startTasks.splice(source.index, 1);
       endTasks.splice(destination.index, 0, movedTask);
 
-      // Update the state
       const updatedTasks = {
         ...tasks,
         [startColumn]: startTasks,
@@ -75,14 +72,12 @@ const App: React.FC = () => {
     }
   };
 
-  // Handle editing column names
   const handleColumnNameChange = (columnId: ViewId, newName: string) => {
     setColumnNames((prevNames) => ({
       ...prevNames,
       [columnId]: newName,
     }));
 
-    // Save column names to localStorage
     localStorage.setItem(
       'columnNames',
       JSON.stringify({
@@ -92,7 +87,29 @@ const App: React.FC = () => {
     );
   };
 
-  // Dynamically generate columns based on the tasks object
+  const handleTaskTitleChange = (taskId: string, newTitle: string) => {
+    const updatedTasks = { ...tasks };
+    const columnKeys = Object.keys(tasks) as ViewId[];
+
+    for (const columnKey of columnKeys) {
+      const taskIndex = updatedTasks[columnKey].findIndex(
+        (task) => task.id === taskId
+      );
+
+      if (taskIndex !== -1) {
+        updatedTasks[columnKey][taskIndex] = {
+          ...updatedTasks[columnKey][taskIndex],
+          title: newTitle,
+        };
+        break;
+      }
+    }
+
+    setTasks(updatedTasks);
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+  };
+
+  // Dynamically generate columns
   const createColumns = () => {
     const columns: ViewId[] = ['a', 'b', 'c'];
 
@@ -119,7 +136,12 @@ const App: React.FC = () => {
 
                 {tasks[columnId].length > 0 ? (
                   tasks[columnId].map((task: Task, index: number) => (
-                    <TaskComponent key={task.id} task={task} index={index} />
+                    <TaskComponent
+                      key={task.id}
+                      task={task}
+                      index={index}
+                      onTitleChange={handleTaskTitleChange}
+                    />
                   ))
                 ) : (
                   <p>No tasks available</p>
