@@ -45,34 +45,34 @@ const App: React.FC = () => {
     const startTasks = Array.from(tasks[startColumn]);
     const endTasks = Array.from(tasks[endColumn]);
 
+    // If the task is moved to the same column
     if (startColumn === endColumn) {
       const [movedTask] = startTasks.splice(source.index, 1);
       startTasks.splice(destination.index, 0, movedTask);
 
-      setTasks((prevTasks: Tasks) => ({
-        ...prevTasks,
+      // Update the state
+      const updatedTasks = {
+        ...tasks,
         [startColumn]: startTasks,
-      }));
+      };
+
+      setTasks(updatedTasks);
+      localStorage.setItem('tasks', JSON.stringify(updatedTasks));
     } else {
+      // If the task is moved to a different column
       const [movedTask] = startTasks.splice(source.index, 1);
       endTasks.splice(destination.index, 0, movedTask);
 
-      setTasks((prevTasks: Tasks) => ({
-        ...prevTasks,
-        [startColumn]: startTasks,
-        [endColumn]: endTasks,
-      }));
-    }
-
-    // Save to localStorage
-    localStorage.setItem(
-      'tasks',
-      JSON.stringify({
+      // Update the state
+      const updatedTasks = {
         ...tasks,
         [startColumn]: startTasks,
         [endColumn]: endTasks,
-      })
-    );
+      };
+
+      setTasks(updatedTasks);
+      localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    }
   };
 
   // Handle editing column names
