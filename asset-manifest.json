@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/react-mosaic-beautiful-dnd-test/static/css/main.8ef9988e.css",
-    "main.js": "/react-mosaic-beautiful-dnd-test/static/js/main.80f8bf29.js",
+    "main.js": "/react-mosaic-beautiful-dnd-test/static/js/main.0c7f5004.js",
     "static/js/453.6588357c.chunk.js": "/react-mosaic-beautiful-dnd-test/static/js/453.6588357c.chunk.js",
     "index.html": "/react-mosaic-beautiful-dnd-test/index.html",
     "main.8ef9988e.css.map": "/react-mosaic-beautiful-dnd-test/static/css/main.8ef9988e.css.map",
-    "main.80f8bf29.js.map": "/react-mosaic-beautiful-dnd-test/static/js/main.80f8bf29.js.map",
+    "main.0c7f5004.js.map": "/react-mosaic-beautiful-dnd-test/static/js/main.0c7f5004.js.map",
     "453.6588357c.chunk.js.map": "/react-mosaic-beautiful-dnd-test/static/js/453.6588357c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8ef9988e.css",
-    "static/js/main.80f8bf29.js"
+    "static/js/main.0c7f5004.js"
   ]
 }
