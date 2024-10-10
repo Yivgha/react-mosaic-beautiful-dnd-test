@@ -11,9 +11,9 @@ import { ViewId, Task, Tasks } from './types';
 import { initialTasks } from './initialTasks';
 import TaskComponent from './components/TaskComponent';
 import './App.css';
+import { EditableText, Icon } from '@blueprintjs/core';
 
 const App: React.FC = () => {
-  // Load tasks from localStorage or use initialTasks
   const [tasks, setTasks] = React.useState<Tasks>(() => {
     const savedTasks = localStorage.getItem('tasks');
     const loadedTasks = savedTasks ? JSON.parse(savedTasks) : initialTasks;
@@ -23,6 +23,15 @@ const App: React.FC = () => {
       c: loadedTasks.c || [],
     };
   });
+
+  const [columnNames, setColumnNames] = React.useState<Record<ViewId, string>>(
+    () => {
+      const savedColumnNames = localStorage.getItem('columnNames');
+      return savedColumnNames
+        ? JSON.parse(savedColumnNames)
+        : { a: 'Column A', b: 'Column B', c: 'Column C' };
+    }
+  );
 
   // Handle drag end event
   const onDragEnd = (result: any) => {
@@ -66,6 +75,23 @@ const App: React.FC = () => {
     );
   };
 
+  // Handle editing column names
+  const handleColumnNameChange = (columnId: ViewId, newName: string) => {
+    setColumnNames((prevNames) => ({
+      ...prevNames,
+      [columnId]: newName,
+    }));
+
+    // Save column names to localStorage
+    localStorage.setItem(
+      'columnNames',
+      JSON.stringify({
+        ...columnNames,
+        [columnId]: newName,
+      })
+    );
+  };
+
   // Dynamically generate columns based on the tasks object
   const createColumns = () => {
     const columns: ViewId[] = ['a', 'b', 'c'];
@@ -80,7 +106,17 @@ const App: React.FC = () => {
                 {...provided.droppableProps}
                 className='mosaic-window'
               >
-                <h2>Column {columnId.toUpperCase()}</h2>
+                <div className='edit-column-name'>
+                  <EditableText
+                    value={columnNames[columnId]}
+                    onChange={(newName) =>
+                      handleColumnNameChange(columnId, newName)
+                    }
+                    className='edit-column-name-text'
+                  />
+                  <Icon icon='edit' className='edit-column-icon' />
+                </div>
+
                 {tasks[columnId].length > 0 ? (
                   tasks[columnId].map((task: Task, index: number) => (
                     <TaskComponent key={task.id} task={task} index={index} />

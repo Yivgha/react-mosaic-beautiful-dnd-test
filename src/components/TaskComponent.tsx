@@ -1,5 +1,4 @@
-// TaskComponent.tsx
-import { Draggable } from '@hello-pangea/dnd'; // Change this import
+import { Draggable } from '@hello-pangea/dnd';
 import { DraggableProvided } from '@hello-pangea/dnd';
 import { Task } from '../types';
 
